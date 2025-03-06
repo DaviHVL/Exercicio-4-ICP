@@ -3,9 +3,11 @@ import { to_do_backend } from 'declarations/to_do_backend';
 
 function tarefas() {
   const [tarefas, setTarefas] = useState([]);
+  const [totalEmAndamento, setTotalEmAndamento] = useState();
+  const [totalConcluidas, setTotalTarefasConcluidas] = useState();
 
   useEffect(() => {
-    consultarTarefas();
+    consultarTarefas(); totalTarefasEmAndamento(); totalTarefasConcluidas();
   }, []);
   
   async function consultarTarefas(){
@@ -30,6 +32,7 @@ function tarefas() {
     }
     
     consultarTarefas();    
+    totalTarefasEmAndamento()
 
     event.target.elements.idTarefa.value = "";
     event.target.elements.categoria.value = "";
@@ -41,11 +44,14 @@ function tarefas() {
   async function excluir(id) {        
     await to_do_backend.excluirTarefa( parseInt(id));    
     consultarTarefas();
+    totalTarefasEmAndamento()
   }
 
   async function alterar( id, categoria, descricao, urgente, concluida) {      
     await to_do_backend.alterarTarefa( parseInt(id), categoria, descricao, urgente, concluida );    
     consultarTarefas();    
+    totalTarefasEmAndamento();
+    totalTarefasConcluidas();
   }
 
   async function editar( id, categoria, descricao, urgente ) {              
@@ -53,6 +59,16 @@ function tarefas() {
         document.getElementById('formTarefas').elements['categoria'].value = categoria;
         document.getElementById('formTarefas').elements['descricao'].value = descricao; 
         document.getElementById('formTarefas').elements['urgente'].value = urgente; 
+  }
+
+  async function totalTarefasEmAndamento() {
+    const num = await to_do_backend.totalTarefasEmAndamento();
+    setTotalEmAndamento(num.toString());
+  }
+
+  async function totalTarefasConcluidas() {
+    const num = await to_do_backend.totalTarefasConcluidas();
+    setTotalTarefasConcluidas(num.toString());
   }
 
 
@@ -154,6 +170,11 @@ function tarefas() {
                         
                     </ul>
             </div>
+
+            <div class="flex items-center justify-end mb-4">
+                <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Total: {totalEmAndamento}</h5> 
+            </div>
+
         </div>
 
         <br/>
@@ -196,6 +217,9 @@ function tarefas() {
                         ))}                     
                         
                     </ul>
+            </div>
+            <div class="flex items-center justify-end mb-4">
+                <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Total: {totalConcluidas}</h5> 
             </div>
         </div>
 

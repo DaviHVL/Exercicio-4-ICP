@@ -1,5 +1,6 @@
 // Importação do módulo Buffer
 import Buffer "mo:base/Buffer";
+import Nat "mo:base/Nat";
 
 // Definição de um ator (actor)
 actor {
@@ -71,6 +72,28 @@ actor {
   // Função para retornar todas as tarefas do buffer 'tarefas'
   public func getTarefas() : async[Tarefa]{
     return Buffer.toArray(tarefas);
+  };
+
+  public func totalTarefasEmAndamento() : async Nat {
+    var num : Nat = 0;
+    for (value in tarefas.vals()){
+      if (value.concluida == false){
+        num += 1;
+      }
+    };
+
+    return num;
+  };
+
+  public func totalTarefasConcluidas() : async Nat {
+    var num : Nat = 0;
+    for (value in tarefas.vals()){
+      if (value.concluida == true){
+        num += 1;
+      }
+    };
+
+    return num;
   };
 
 }
