@@ -3,6 +3,7 @@ import { to_do_backend } from 'declarations/to_do_backend';
 
 function tarefas() {
   const [tarefas, setTarefas] = useState([]);
+  // React Hook para armazenar o total de tarefas em andamento e concluídas
   const [totalEmAndamento, setTotalEmAndamento] = useState();
   const [totalConcluidas, setTotalTarefasConcluidas] = useState();
 
@@ -61,11 +62,13 @@ function tarefas() {
         document.getElementById('formTarefas').elements['urgente'].value = urgente; 
   }
 
+  // Função para obter o número total de tarefas em andamento
   async function totalTarefasEmAndamento() {
     const num = await to_do_backend.totalTarefasEmAndamento();
     setTotalEmAndamento(num.toString());
   }
 
+  // Função para obter o número total de tarefas concluídas
   async function totalTarefasConcluidas() {
     const num = await to_do_backend.totalTarefasConcluidas();
     setTotalTarefasConcluidas(num.toString());
