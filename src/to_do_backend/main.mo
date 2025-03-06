@@ -74,6 +74,7 @@ actor {
     return Buffer.toArray(tarefas);
   };
 
+  // Função para retornar o número de tarefas em andamento
   public func totalTarefasEmAndamento() : async Nat {
     var num : Nat = 0;
     for (value in tarefas.vals()){
@@ -85,6 +86,7 @@ actor {
     return num;
   };
 
+  // Função para retornar o número de tarefas concluídas
   public func totalTarefasConcluidas() : async Nat {
     var num : Nat = 0;
     for (value in tarefas.vals()){
